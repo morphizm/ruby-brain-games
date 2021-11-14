@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: [3.0.2]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Ruby ${{ matrix.ruby-version }}
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+      - name: bundle install
+        run: make install
+      - name: Run linter
+        run: make lint
